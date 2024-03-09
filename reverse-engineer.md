@@ -48,5 +48,15 @@ sudo qemu-system-x86_64 -enable-kvm -m 4G -hda disk.img -device qemu-xhci -devic
 You may use the parameter `pcap=ur44c.pcap` to record the usb traffic, e.g.
 
 ```
-sudo qemu-system-x86_64 -enable-kvm -m 4G -hda disk.img -device qemu-xhci -device usb-host,hostbus=3,hostaddr=4,pcap=ur44c.pcap
+sudo qemu-system-x86_64 -enable-kvm -m 4G -hda disk.img -device qemu-xhci -device usb-host,id=ur44,hostbus=3,hostaddr=4,pcap=ur44c.pcap
 ```
+
+When using the option `-monitor stdio`, you can hotplug your audio interface to verify if settings applied or not:
+
+```
+sudo qemu-system-x86_64 -enable-kvm -m 4G -hda disk.img -device qemu-xhci -device usb-host,id=ur44,hostbus=3,hostaddr=4,pcap=ur44c.pcap
+(qemu) device_del ur44c
+(qemu) device_add usb-host,id=ur44c,hostbus=3,hostaddr=3,pcap=ur44c2.pcap
+```
+
+
