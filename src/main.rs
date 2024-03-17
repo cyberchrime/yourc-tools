@@ -18,6 +18,9 @@
 
 use clap::{Args, Parser, Subcommand};
 
+mod midi;
+use midi::Midi;
+
 #[derive(Debug, Parser)]
 #[command(version, about, long_about = None)]
 #[command(propagate_version = true)]
@@ -70,4 +73,6 @@ fn main() {
         None => println!("Gui not yet available.")
     }
     println!("{:?}", args);
+
+    let midi = Midi::new().unwrap();
 }
