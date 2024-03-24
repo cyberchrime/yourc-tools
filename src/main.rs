@@ -15,11 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+mod device;
+
+use crate::device::midi::Midi;
+use crate::device::sysex::Sysex;
+use crate::device::urxxc::URxxC;
+
 
 use clap::{Args, Parser, Subcommand};
-
-mod midi;
-use midi::Midi;
 
 #[derive(Debug, Parser)]
 #[command(version, about, long_about = None)]
@@ -57,6 +60,10 @@ struct ReadCommand {
 fn main() {
     let args = Cli::parse();
 
+    let midi = Midi::new("Steinberg UR44C:Steinberg UR44C MIDI").unwrap();
+    let sysex: Sysex = Sysex::new(midi).unwrap();
+    let urxxc: URxxC = URxxC::new(sysex).unwrap();
+
     match &args.command {
         Some(Commands::Write(cmd)) => {
             println!("Write: {:?}", cmd);
@@ -70,9 +77,7 @@ fn main() {
         Some(Commands::Restore { filename }) => {
             println!("Restore: {}", filename);
         }
-        None => println!("Gui not yet available.")
+        None => println!("gUI not yet implemented.")
     }
     println!("{:?}", args);
-
-    let midi = Midi::new().unwrap();
 }
