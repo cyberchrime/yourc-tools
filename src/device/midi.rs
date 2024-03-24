@@ -17,6 +17,7 @@ impl Midi {
     const LARGE_SYSEX_SIZE: usize = 100; // This is the maximum that worked for me
 
     pub fn send(&mut self, data: &[u8]) -> Result<(), Box<dyn Error>> {
+        println!("Sending {:?}", data);
         self.output.send(data)?;
         Ok(())
     }
@@ -44,7 +45,7 @@ impl Midi {
         });
 
         if let Some(sysex_port) = ur44c_ports.last() {
-            let conn_in = midi_in.connect(&sysex_port, "In", |size, data, _| println!("{size} {:?}", data), ())?;
+            let conn_in = midi_in.connect(&sysex_port, "In", |_, data, _| println!("{:?}", data), ())?;
             Ok(conn_in)
         } else {
             Err(format!("Port \"{}\" not found.", port_name))?
@@ -54,9 +55,6 @@ impl Midi {
     pub fn new(port_name: &str) -> Result<Midi, Box<dyn Error>> {
         let conn_out = Midi::connect_output(port_name)?;
         let conn_in = Midi::connect_input(port_name)?;
-
-        let time = Duration::new(5, 0);
-        sleep(time);
 
         Ok(Midi {
             input: conn_in,

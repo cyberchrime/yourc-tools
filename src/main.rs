@@ -17,6 +17,8 @@
 
 mod device;
 
+use std::{thread::sleep, time::Duration};
+
 use crate::device::midi::Midi;
 use crate::device::sysex::Sysex;
 use crate::device::urxxc::URxxC;
@@ -46,14 +48,14 @@ enum Commands {
 
 #[derive(Debug, Args)]
 struct WriteCommand {
-    parameter: u8,
+    parameter: u16,
     channel: u8,
-    value: u32,
+    value: i32,
 }
 
 #[derive(Debug, Args)]
 struct ReadCommand {
-    parameter: u8,
+    parameter: u16,
     channel: u8,
 }
 
@@ -62,14 +64,19 @@ fn main() {
 
     let midi = Midi::new("Steinberg UR44C:Steinberg UR44C MIDI").unwrap();
     let sysex: Sysex = Sysex::new(midi).unwrap();
-    let urxxc: URxxC = URxxC::new(sysex).unwrap();
+    let mut urxxc: URxxC = URxxC::new(sysex).unwrap();
 
     match &args.command {
         Some(Commands::Write(cmd)) => {
+            urxxc.set(cmd.parameter, cmd.channel, cmd.value);
             println!("Write: {:?}", cmd);
         }
         Some(Commands::Read(cmd)) => {
+            urxxc.request(cmd.parameter, cmd.channel);
             println!("Read: {:?}", cmd);
+
+            let d = Duration::from_secs(1);
+            sleep(d);
         }
         Some(Commands::Dump { filename }) => {
             println!("Dump: {}", filename);
@@ -77,7 +84,7 @@ fn main() {
         Some(Commands::Restore { filename }) => {
             println!("Restore: {}", filename);
         }
-        None => println!("gUI not yet implemented.")
+        None => println!("GUI not yet implemented.")
     }
-    println!("{:?}", args);
+
 }
