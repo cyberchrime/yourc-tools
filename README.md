@@ -1,20 +1,20 @@
 # yoUR-C Tools
 
 yoUR-C Tools is the approach of configuring the Steinberg UR-C audio
-interfaces' DSP from linux. All knowledge about the interface and the
-communication was gained by reverse engineering the USB communication
-of the [dspMixFx application by Steinberg](https://o.steinberg.net/de/support/downloads_hardware/downloads_ur_c.html). 
+interfaces' DSP from a Linux-native application. All knowledge about
+the interface and the communication was gained by reverse engineering
+the USB communication of the [dspMixFx application by Steinberg](https://o.steinberg.net/de/support/downloads_hardware/downloads_ur_c.html). 
 
 
-## Support this Project
+## Similar projects
+
+[askoriy created a Python script ](https://github.com/askoriy/urcontrol/)
+to change and read parameters via a command line application.
+
+## Support this project
 
 Development is still in a very early stage. Help is welcomed with open
 arms.
-
-### Consider a donation
-
-Much effort was invested to create this project.
-
 
 ### Help reverse engineering
 
@@ -33,7 +33,6 @@ create a pull request.
 
 ### Test it on your device
 
-If you 
 These tools might work on several audio interfaces, including the
 UR44C, UR22C, UR24C and more. Please give it a try and create issues
 in case you encounter any issues.
@@ -45,4 +44,5 @@ by creating a pull request.
 ## Acknowledges
 
 Several people invested into this project:
-- [sanik_s](https://forums.steinberg.net/t/linux-support-for-dspmixfx/871400) for reverse engineering the protocol.
+- [sanik_s](https://forums.steinberg.net/t/linux-support-for-dspmixfx/871400) / [askoriy](https://github.com/askoriy/urcontrol/)
+ for reverse engineering and sharing the protocol.
